@@ -25,7 +25,6 @@ public class GraphicalViewController {
     @Autowired
     private GraphicalViewDataService graphicalViewDataService;
 
-
     /**
      * Save graphical view data string.
      *
