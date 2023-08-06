@@ -14,11 +14,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/graphical")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 public class GraphicalViewController {
-
-
 
     /**
      * The Graphical view data service.
