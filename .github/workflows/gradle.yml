@@ -34,4 +34,6 @@ jobs:
         arguments: build
     - name: Clear Gradle cache
       run: ./gradlew --no-daemon clean build --rerun-tasks
+    - name: Clear Gradle cache
+      run: ./gradlew --no-daemon clean build --rerun-tasks
 
