@@ -19,7 +19,6 @@ import java.util.List;
 public class GraphicalViewController {
 
 
-
     /**
      * The Graphical view data service.
      */
