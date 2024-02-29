@@ -56,7 +56,7 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
         graphicalViewFeedList.forEach(graphicalViewFeed -> {
             log.info("Going to map  data [{}]", graphicalViewFeed.getOccurredDate());
             GraphicalViewDataVO graphicalViewDataVO = modelMapper.map(graphicalViewFeed, GraphicalViewDataVO.class);
-            graphicalViewDataVO.setId(GraphicalViewUtils.generateUniqueHashId(graphicalViewDataVO.getFailureNumber(), graphicalViewDataVO.getOccurredDate()));
+            graphicalViewDataVO.setId(GraphicalViewUtils.generateUniqueHashId(graphicalViewDataVO.getFailureNumber(), graphicalViewDataVO.getOccurredDaTe()));
             graphicalViewDataVO.setDate(getDateByOccuredDate(graphicalViewDataVO));
             graphicalViewDataVOList.add(graphicalViewDataVO);
         });
@@ -102,9 +102,9 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
      * @return
      */
     public Date getDateByOccuredDate(GraphicalViewDataVO graphicalViewDataVO) {
-        if (graphicalViewDataVO.getOccurredDate() != null) {
+        if (graphicalViewDataVO.getOccurredDaTe() != null) {
             try {
-                return new SimpleDateFormat("dd-MMM-yy").parse(graphicalViewDataVO.getOccurredDate());
+                return new SimpleDateFormat("dd-MMM-yy").parse(graphicalViewDataVO.getOccurredDaTe());
             } catch (ParseException e) {
                 log.error("Exception occur while parsing the date ", e);
             }
