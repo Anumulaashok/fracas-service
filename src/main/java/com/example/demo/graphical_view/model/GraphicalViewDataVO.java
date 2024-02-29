@@ -28,11 +28,11 @@ public class GraphicalViewDataVO {
     /**
      * The Occurred date.
      */
-    private String occurredDate;
+    private String occurredDateTime;
     /**
      * The Rectified date.
      */
-    private String rectifiedDate;
+    private String rectifiedDateTime;
     /**
      * The Elr reference.
      */
