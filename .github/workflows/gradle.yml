@@ -45,8 +45,7 @@ jobs:
     
     - name: Build with Gradle 8.5
       run: gradle build --stacktrace
-
-
+      
   # dependency-submission:
 
   #   runs-on: ubuntu-latest
