@@ -87,7 +87,7 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
     @Override
     public GraphicalViewFeed deleteGraphicalViewFeed(String failureNumber, String occurredDateTime) {
         log.info("Going to delete graphical view row for failure number [{} occurred date {}]", failureNumber, occurredDateTime);
-        GraphicalViewDataVO viewFeed = graphicalViewDataRepository.findByFailureNumberAndOccurredDate(failureNumber, occurredDateTime);
+        GraphicalViewDataVO viewFeed = graphicalViewDataRepository.findByFailureNumberAndOccurredDateTime(failureNumber, occurredDateTime);
         if (viewFeed == null) {
             throw new BadRequestException("Value doesn't exist with the value " + failureNumber);
         }
