@@ -14,8 +14,8 @@ public interface GraphicalViewDataRepository extends MongoRepository<GraphicalVi
      * Delete by failure number and occurred date.
      *
      * @param failureNumber the failure number
-     * @param occurredDate  the occurred date
+     * @param occurredDateTime  the occurred date Time
      * @return the graphical view feed
      */
-    GraphicalViewDataVO findByFailureNumberAndOccurredDate(String failureNumber, String occurredDate);
+    GraphicalViewDataVO findByFailureNumberAndOccurredDateTime(String failureNumber, String occurredDateTime);
 }
