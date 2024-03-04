@@ -36,8 +36,8 @@ public interface GraphicalViewDataService {
      * Delete graphical view feed graphical view feed.
      *
      * @param failureNumber the failure number
-     * @param occurredDate  the occurred date
+     * @param occurredDateTime  the occurred date Time
      * @return the graphical view feed
      */
-    GraphicalViewFeed deleteGraphicalViewFeed(String failureNumber, String occurredDate);
+    GraphicalViewFeed deleteGraphicalViewFeed(String failureNumber, String occurredDateTime);
 }

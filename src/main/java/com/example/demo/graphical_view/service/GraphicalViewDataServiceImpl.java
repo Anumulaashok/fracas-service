@@ -54,7 +54,7 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
         log.info("Going to map data from feed to vo and saving ");
         List<GraphicalViewDataVO> graphicalViewDataVOList = new ArrayList<>();
         graphicalViewFeedList.forEach(graphicalViewFeed -> {
-            log.info("Going to map  data [{}]", graphicalViewFeed.getOccurredDate());
+            log.info("Going to map  data [{}]", graphicalViewFeed.getOccurredDateTime());
             GraphicalViewDataVO graphicalViewDataVO = modelMapper.map(graphicalViewFeed, GraphicalViewDataVO.class);
             graphicalViewDataVO.setId(GraphicalViewUtils.generateUniqueHashId(graphicalViewDataVO.getFailureNumber(), graphicalViewDataVO.getOccurredDateTime()));
             graphicalViewDataVO.setDate(getDateByOccuredDate(graphicalViewDataVO));
@@ -85,9 +85,9 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
     }
 
     @Override
-    public GraphicalViewFeed deleteGraphicalViewFeed(String failureNumber, String occurredDate) {
-        log.info("Going to delete graphical view row for failure number [{} occurred date {}]", failureNumber, occurredDate);
-        GraphicalViewDataVO viewFeed = graphicalViewDataRepository.findByFailureNumberAndOccurredDate(failureNumber, occurredDate);
+    public GraphicalViewFeed deleteGraphicalViewFeed(String failureNumber, String occurredDateTime) {
+        log.info("Going to delete graphical view row for failure number [{} occurred date {}]", failureNumber, occurredDateTime);
+        GraphicalViewDataVO viewFeed = graphicalViewDataRepository.findByFailureNumberAndOccurredDateTime(failureNumber, occurredDateTime);
         if (viewFeed == null) {
             throw new BadRequestException("Value doesn't exist with the value " + failureNumber);
         }
