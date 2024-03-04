@@ -39,11 +39,11 @@ jobs:
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
     #
     - name: Replace secret key in application.properties
-      env:
-            MY_SECRET_KEY: ${{ secrets.MONGODB_URI }}
-      run: |
+        env:
+          MY_SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}
+        run: |
           sed -i "s|\${MY_SECRET_KEY}|${MY_SECRET_KEY}|g" src/main/resources/application.properties
-          
+
     - name: Print MongoDB URI
       env:
           MY_SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}
