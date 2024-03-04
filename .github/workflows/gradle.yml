@@ -44,10 +44,10 @@ jobs:
         gradle-version: '8.5'
     
     - name: Build with Gradle 8.5
-      run: gradle build
+      run: gradle build --stacktrace --debug
 
     - name: Build with Gradle
-      run: ./gradlew clean build
+      run: ./gradlew clean build --stacktrace --trace
 
   dependency-submission:
 
