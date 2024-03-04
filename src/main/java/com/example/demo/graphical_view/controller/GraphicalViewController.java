@@ -60,11 +60,11 @@ public class GraphicalViewController {
      * Delete graphical view feed graphical view feed.
      *
      * @param failureNumber the failure number
-     * @param occurredDate  the occurred date
+     * @param occurredDateTime  the occurred date Time
      * @return the graphical view feed
      */
     @DeleteMapping("/delete/{failureNumber}")
-    public GraphicalViewFeed deleteGraphicalViewFeed(@PathVariable String failureNumber, @RequestParam String occurredDate) {
-        return graphicalViewDataService.deleteGraphicalViewFeed(failureNumber.trim(), occurredDate.trim());
+    public GraphicalViewFeed deleteGraphicalViewFeed(@PathVariable String failureNumber, @RequestParam String occurredDateTime) {
+        return graphicalViewDataService.deleteGraphicalViewFeed(failureNumber.trim(), occurredDateTime.trim());
     }
 }
