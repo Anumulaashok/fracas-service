@@ -41,7 +41,7 @@ jobs:
     - name: Replace secret key in application.properties
       env:
           MY_SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}
-        run: |
+      run: |
           sed -i "s|\${MY_SECRET_KEY}|${MY_SECRET_KEY}|g" src/main/resources/application.properties
 
     - name: Print MongoDB URI
