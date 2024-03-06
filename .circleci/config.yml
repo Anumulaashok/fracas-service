@@ -41,6 +41,12 @@ jobs:
           name: deploy
           command: ./deploy.sh
 
+      - run:
+          name: Deploy to website
+          command: |
+            # Example command to deploy to a website using rsync
+            rsync -avz --delete build/ user@yourwebsite.com:/path/to/website/
+
 workflows:
   example:
     jobs:
