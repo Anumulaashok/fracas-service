@@ -1,0 +1,45 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: cimg/base:current
+    environment:
+      JAVA_HOME: /usr/local/sdkman/candidates/java/current
+      PATH: $PATH:/usr/local/sdkman/candidates/java/current/bin
+    steps:
+      - checkout
+      - run:
+          name: Run tests
+          command: ./gradlew test
+
+  deploy:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - run:
+          name: Replace secret key in application.properties
+          command: sed -i "s|\${MY_SECRET_KEY}|${MY_SECRET_KEY}|g" src/main/resources/application.properties
+
+      - run:
+          name: Setup Gradle
+          command: ./gradlew wrapper --gradle-version 8.5
+
+      - run:
+          name: Build with Gradle 8.5
+          command: ./gradlew build
+
+      - run:
+          name: deploy
+          command: ./deploy.sh
+
+workflows:
+  example:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+      - deploy:
+          requires:
+            - test
