@@ -17,9 +17,9 @@ jobs:
       - checkout
       - run:
           name: Build an artifact
-          command: ./gradlew build
+          command: touch example.txt
       - store_artifacts:
-          path: build/libs/
+          path: example.txt
 
   deploy:
     docker:
@@ -31,7 +31,7 @@ jobs:
 
       - run:
           name: Print MongoDB URI
-          command: echo "MongoDB URI: $MY_SECRET_KEY"
+          command: echo "MongoDB URI: \$MY_SECRET_KEY"
 
       - run:
           name: Setup Gradle
@@ -46,7 +46,6 @@ jobs:
           command: ./deploy.sh
 
 workflows:
-  version: 2
   example:
     jobs:
       - test
