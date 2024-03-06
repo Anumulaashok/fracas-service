@@ -39,11 +39,11 @@ jobs:
   deploy:
     docker:
       - image: cimg/base:current
-   steps:
-  - run:
-      name: deploy
-      command: |
-        MY_ENV_VAR=value ./deploy.sh
+    steps:
+      - run:
+          name: deploy
+          command: |
+            MY_ENV_VAR=value ./deploy.sh
 
 
 # Orchestrate jobs using workflows
