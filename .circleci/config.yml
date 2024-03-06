@@ -39,11 +39,12 @@ jobs:
   deploy:
     docker:
       - image: cimg/base:current
-    steps:
-      # Replace this with steps to deploy to users
-      - run:
-          name: deploy
-          command: ./deploy.sh
+   steps:
+  - run:
+      name: deploy
+      command: |
+        MY_ENV_VAR=value ./deploy.sh
+
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
