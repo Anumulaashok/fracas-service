@@ -42,8 +42,7 @@ jobs:
     steps:
       - run:
           name: deploy
-          command: |
-            MY_ENV_VAR=value ./deploy.sh
+          command: "./deploy.sh"
 
 
 # Orchestrate jobs using workflows
