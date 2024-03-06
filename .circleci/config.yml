@@ -4,22 +4,14 @@ jobs:
   test:
     docker:
       - image: cimg/base:current
+    environment:
+      JAVA_HOME: /usr/local/sdkman/candidates/java/current
+      PATH: $PATH:/usr/local/sdkman/candidates/java/current/bin
     steps:
       - checkout
       - run:
           name: Run tests
           command: ./gradlew test
-
-  build:
-    docker:
-      - image: cimg/base:current
-    steps:
-      - checkout
-      - run:
-          name: Build an artifact
-          command: touch example.txt
-      - store_artifacts:
-          path: example.txt
 
   deploy:
     docker:
@@ -40,12 +32,6 @@ jobs:
       - run:
           name: deploy
           command: ./deploy.sh
-
-      - run:
-          name: Deploy to website
-          command: |
-            # Example command to deploy to a website using rsync
-            rsync -avz --delete build/ user@yourwebsite.com:/path/to/website/
 
 workflows:
   example:
