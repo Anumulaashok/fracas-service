@@ -42,7 +42,7 @@ jobs:
     steps:
       - run:
           name: deploy
-          command: "./deploy.sh"
+          command: "#e.g. ./deploy.sh"
 
 
 # Orchestrate jobs using workflows
