@@ -2,6 +2,7 @@ package com.example.demo.graphical_view.controller;
 
 import com.example.demo.graphical_view.feed.BaseFilter;
 import com.example.demo.graphical_view.feed.GraphicalViewFeed;
+import com.example.demo.graphical_view.feed.ProjectConfig;
 import com.example.demo.graphical_view.service.GraphicalViewDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class GraphicalViewController {
      */
     @PostMapping("/customer/data")
     public String saveCustomerData(@RequestBody List<Map<String, Object>> customerData, @RequestParam String projectId, @RequestParam String fileName) {
-        return graphicalViewDataService.saveCustomerData(customerData);
+        return graphicalViewDataService.saveCustomerData(customerData, projectId);
     }
 
     /**
@@ -46,7 +47,7 @@ public class GraphicalViewController {
      * @return the string
      */
     @PostMapping("/create/project")
-    public String saveProject(@RequestParam String projectName){
+    public String saveProject(@RequestParam String projectName) {
         return graphicalViewDataService.saveProject(projectName);
     }
 
@@ -56,7 +57,7 @@ public class GraphicalViewController {
      * @return the graphical view feed
      */
     @GetMapping("/get/projects")
-    public List<Map> getGraphicalViewFeed() {
+    public List<ProjectConfig> getGraphicalViewFeed() {
         return graphicalViewDataService.getAllProjects();
     }
 

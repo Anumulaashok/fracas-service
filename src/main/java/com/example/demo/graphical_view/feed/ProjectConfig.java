@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public  class ProjectConfig {
+public class ProjectConfig {
 
     /**
      * The Id.

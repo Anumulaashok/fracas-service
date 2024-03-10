@@ -2,6 +2,7 @@ package com.example.demo.graphical_view.service;
 
 import com.example.demo.graphical_view.feed.BaseFilter;
 import com.example.demo.graphical_view.feed.GraphicalViewFeed;
+import com.example.demo.graphical_view.feed.ProjectConfig;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ public interface GraphicalViewDataService {
      *
      * @return the graphical view data list
      */
-    List<Map> getAllProjects();
+    List<ProjectConfig> getAllProjects();
 
     /**
      * Gets graphical view feed.
@@ -31,9 +32,10 @@ public interface GraphicalViewDataService {
      * Save customer data string.
      *
      * @param customerData the customer data
+     * @param projectId    the project id
      * @return the string
      */
-    String saveCustomerData(List<Map<String, Object>> customerData);
+    String saveCustomerData(List<Map<String, Object>> customerData, String projectId);
 
     /**
      * Save project string.
