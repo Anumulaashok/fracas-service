@@ -28,5 +28,5 @@ public class ProjectConfig {
     /**
      * The Project list.
      */
-    private List<String> ProjectList;
+    private List<String> projectList;
 }
