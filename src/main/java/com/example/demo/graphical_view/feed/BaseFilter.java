@@ -22,7 +22,10 @@ public class BaseFilter {
      * The End date.
      */
     private Date endDate;
-
+    /**
+     * The Project id.
+     */
+    private String projectId;
     /**
      * The Field.
      */

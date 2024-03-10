@@ -82,6 +82,9 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
     public List<GraphicalViewFeed> getGraphicalViewFeed(BaseFilter baseFilter) {
         Criteria criteria = new Criteria();
         criteria.and("active").is(true);
+        if (baseFilter.getProjectId() != null) {
+            criteria.and("projectId").is(baseFilter.getProjectId());
+        }
         if (baseFilter != null) {
             criteria.and("date").gte(baseFilter.getStartDate()).lte(baseFilter.getEndDate());
             if (baseFilter.getField() != null && baseFilter.getValue() != null) {
@@ -89,7 +92,7 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
             }
         }
         Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(criteria));
-        log.info("aggregation [{}]",aggregation);
+        log.info("aggregation [{}]", aggregation);
         List<GraphicalViewFeed> documents = mongoTemplate.aggregate(aggregation, GRAPHICAL_VIEW_DATA, GraphicalViewFeed.class).getMappedResults();
         log.info("mapped results {}", documents);
         return documents;
@@ -97,8 +100,11 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
 
 
     @Override
-    public List<Map> getAllProjects() {
-        return mongoTemplate.findAll(Map.class, PROJECT_CONFIG);
+    public List<ProjectConfig> getAllProjects() {
+        log.debug("Going to get the projects");
+        List<ProjectConfig> mappedResults = mongoTemplate.findAll(ProjectConfig.class, PROJECT_CONFIG);
+        log.debug("Got the results [{}]", mappedResults);
+        return mappedResults;
     }
 
     @Override
@@ -109,7 +115,7 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
     }
 
     @Override
-    public String saveCustomerData(List<Map<String, Object>> customerData) {
+    public String saveCustomerData(List<Map<String, Object>> customerData, String projectId) {
         log.info("customer data [{}]", customerData);
         if (customerData == null || customerData.isEmpty()) {
             throw new BadRequestException("data must not be empty");
@@ -145,6 +151,7 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
                 graphData.put(mappedData.get(key), data.get(key));
             }
             log.info("data [{}]", graphData);
+            graphData.put("projectId", projectId);
             graphData.put("active", true);
             mongoTemplate.save(graphData, "graphical_view_data");
         });
