@@ -4,25 +4,19 @@ import com.example.demo.graphical_view.feed.BaseFilter;
 import com.example.demo.graphical_view.feed.GraphicalViewFeed;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * The type Graphical view data service.
  */
 public interface GraphicalViewDataService {
-    /**
-     * Save graphical view data string.
-     *
-     * @param graphicalViewDataVOList the graphical view data vo list
-     * @return the string
-     */
-    String saveGraphicalViewData(List<GraphicalViewFeed> graphicalViewDataVOList);
 
     /**
      * Gets graphical view data list.
      *
      * @return the graphical view data list
      */
-    List<GraphicalViewFeed> getGraphicalViewDataList();
+    List<Map> getAllProjects();
 
     /**
      * Gets graphical view feed.
@@ -32,12 +26,20 @@ public interface GraphicalViewDataService {
      */
     List<GraphicalViewFeed> getGraphicalViewFeed(BaseFilter baseFilter);
 
+
     /**
-     * Delete graphical view feed graphical view feed.
+     * Save customer data string.
      *
-     * @param failureNumber the failure number
-     * @param occurredDateTime  the occurred date Time
-     * @return the graphical view feed
+     * @param customerData the customer data
+     * @return the string
      */
-    GraphicalViewFeed deleteGraphicalViewFeed(String failureNumber, String occurredDateTime);
+    String saveCustomerData(List<Map<String, Object>> customerData);
+
+    /**
+     * Save project string.
+     *
+     * @param projectName the project name
+     * @return the string
+     */
+    String saveProject(String projectName);
 }

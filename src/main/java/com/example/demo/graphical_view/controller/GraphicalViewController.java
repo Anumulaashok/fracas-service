@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * The type Graphical view controller.
  */
 @RestController
 @RequestMapping("/graphical")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @Slf4j
 public class GraphicalViewController {
 
@@ -24,15 +25,29 @@ public class GraphicalViewController {
     @Autowired
     private GraphicalViewDataService graphicalViewDataService;
 
+
     /**
-     * Save graphical view data string.
+     * Save customer data string.
      *
-     * @param graphicalViewDataVOList the graphical view data vo list
+     * @param customerData the customer data
+     * @param projectId    the project id
+     * @param fileName     the file name
      * @return the string
      */
-    @PostMapping("/save/data")
-    public String saveGraphicalViewData(@RequestBody List<GraphicalViewFeed> graphicalViewDataVOList) {
-        return graphicalViewDataService.saveGraphicalViewData(graphicalViewDataVOList);
+    @PostMapping("/customer/data")
+    public String saveCustomerData(@RequestBody List<Map<String, Object>> customerData, @RequestParam String projectId, @RequestParam String fileName) {
+        return graphicalViewDataService.saveCustomerData(customerData);
+    }
+
+    /**
+     * Save project string.
+     *
+     * @param projectName the project name
+     * @return the string
+     */
+    @PostMapping("/create/project")
+    public String saveProject(@RequestParam String projectName){
+        return graphicalViewDataService.saveProject(projectName);
     }
 
     /**
@@ -40,9 +55,9 @@ public class GraphicalViewController {
      *
      * @return the graphical view feed
      */
-    @GetMapping("/get")
-    public List<GraphicalViewFeed> getGraphicalViewFeed() {
-        return graphicalViewDataService.getGraphicalViewDataList();
+    @GetMapping("/get/projects")
+    public List<Map> getGraphicalViewFeed() {
+        return graphicalViewDataService.getAllProjects();
     }
 
     /**
@@ -52,19 +67,8 @@ public class GraphicalViewController {
      * @return the graphical view feed
      */
     @GetMapping("/get/by/content")
-    public List<GraphicalViewFeed> getGraphicalViewFeed(@RequestBody BaseFilter baseFilter) {
+    public List<GraphicalViewFeed> getGraphicalViewFeed(@RequestBody(required = false) BaseFilter baseFilter) {
         return graphicalViewDataService.getGraphicalViewFeed(baseFilter);
     }
 
-    /**
-     * Delete graphical view feed graphical view feed.
-     *
-     * @param failureNumber the failure number
-     * @param occurredDateTime  the occurred date Time
-     * @return the graphical view feed
-     */
-    @DeleteMapping("/delete/{failureNumber}")
-    public GraphicalViewFeed deleteGraphicalViewFeed(@PathVariable String failureNumber, @RequestParam String occurredDateTime) {
-        return graphicalViewDataService.deleteGraphicalViewFeed(failureNumber.trim(), occurredDateTime.trim());
-    }
 }
