@@ -82,7 +82,7 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
     public List<GraphicalViewFeed> getGraphicalViewFeed(BaseFilter baseFilter) {
         Criteria criteria = new Criteria();
         criteria.and("active").is(true);
-        if (baseFilter.getProjectId() != null) {
+        if (baseFilter != null && baseFilter.getProjectId() != null) {
             criteria.and("projectId").is(baseFilter.getProjectId());
         }
         if (baseFilter != null) {
