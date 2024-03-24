@@ -1,9 +1,8 @@
 package com.example.demo.graphical_view.controller;
 
-import com.example.demo.graphical_view.feed.BaseFilter;
-import com.example.demo.graphical_view.feed.GraphicalViewFeed;
-import com.example.demo.graphical_view.feed.ProjectConfig;
+import com.example.demo.graphical_view.feed.*;
 import com.example.demo.graphical_view.service.GraphicalViewDataService;
+import com.example.demo.graphical_view.service.KpiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/graphical")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"*", "localhost:3000"})
 @Slf4j
 public class GraphicalViewController {
 
@@ -25,30 +24,33 @@ public class GraphicalViewController {
      */
     @Autowired
     private GraphicalViewDataService graphicalViewDataService;
+    /**
+     * The Kpi service.
+     */
+    @Autowired
+    private KpiService kpiService;
 
 
     /**
      * Save customer data string.
      *
      * @param customerData the customer data
-     * @param projectId    the project id
-     * @param fileName     the file name
      * @return the string
      */
     @PostMapping("/customer/data")
-    public String saveCustomerData(@RequestBody List<Map<String, Object>> customerData, @RequestParam String projectId, @RequestParam String fileName) {
-        return graphicalViewDataService.saveCustomerData(customerData, projectId);
+    public String saveCustomerData(@RequestBody CustomerDataFeed customerData) {
+        return graphicalViewDataService.saveCustomerData(customerData);
     }
 
     /**
      * Save project string.
      *
-     * @param projectName the project name
+     * @param projectConfig the project config
      * @return the string
      */
     @PostMapping("/create/project")
-    public String saveProject(@RequestParam String projectName) {
-        return graphicalViewDataService.saveProject(projectName);
+    public String saveProject(@RequestBody ProjectConfig projectConfig) {
+        return graphicalViewDataService.saveProject(projectConfig);
     }
 
     /**
@@ -62,14 +64,39 @@ public class GraphicalViewController {
     }
 
     /**
+     * Gets kpis.
+     *
+     * @return the kpis
+     */
+    @GetMapping("/kpis")
+    public List<KpiFeed> getKpis() {
+        return kpiService.getAllKpis();
+    }
+
+    /**
      * Gets graphical view feed.
      *
      * @param baseFilter the base filter
      * @return the graphical view feed
      */
-    @GetMapping("/get/by/content")
+    @GetMapping("/get/data")
     public List<GraphicalViewFeed> getGraphicalViewFeed(@RequestBody(required = false) BaseFilter baseFilter) {
         return graphicalViewDataService.getGraphicalViewFeed(baseFilter);
     }
 
+    /**
+     * Gets line chart.
+     *
+     * @param lineChartFilter the base filter
+     * @return the line chart
+     */
+    @PostMapping("/line")
+    public List<Map> getLineChart(@RequestBody LineChartFilter lineChartFilter) {
+        return kpiService.getLineChart(lineChartFilter);
+    }
+
+//    @GetMapping("/get/data/download")
+//    public ResponseEntity<Resource> getGraphicalViewFeedDownload(@RequestBody(required = false) BaseFilter baseFilter) {
+//        return graphicalViewDataService.getGraphicalViewFeedDownload(baseFilter);
+//    }
 }

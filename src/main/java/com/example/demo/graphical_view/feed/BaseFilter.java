@@ -27,6 +27,10 @@ public class BaseFilter {
      */
     private String projectId;
     /**
+     * The Sheet name.
+     */
+    private String sheetName;
+    /**
      * The Field.
      */
     private String field;
@@ -34,4 +38,8 @@ public class BaseFilter {
      * The Value.
      */
     private String value;
+    /**
+     * The Date.
+     */
+    private KpiFeed dateField;
 }

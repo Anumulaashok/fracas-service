@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The type Project.
@@ -14,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Document(collection = "project_config")
 public class ProjectConfig {
 
     /**
@@ -28,5 +32,17 @@ public class ProjectConfig {
     /**
      * The Project list.
      */
-    private List<String> ProjectList;
+    private Set<String> ProjectList = new HashSet<>();
+    /**
+     * The Is active.
+     */
+    private boolean active = true;
+    /**
+     * The Is deleted.
+     */
+    private boolean deleted = false;
+    /**
+     * The Updated on.
+     */
+    private Date updatedOn;
 }

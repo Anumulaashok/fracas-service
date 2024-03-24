@@ -1,11 +1,11 @@
 package com.example.demo.graphical_view.service;
 
 import com.example.demo.graphical_view.feed.BaseFilter;
+import com.example.demo.graphical_view.feed.CustomerDataFeed;
 import com.example.demo.graphical_view.feed.GraphicalViewFeed;
 import com.example.demo.graphical_view.feed.ProjectConfig;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * The type Graphical view data service.
@@ -32,16 +32,23 @@ public interface GraphicalViewDataService {
      * Save customer data string.
      *
      * @param customerData the customer data
-     * @param projectId    the project id
      * @return the string
      */
-    String saveCustomerData(List<Map<String, Object>> customerData, String projectId);
+    String saveCustomerData(CustomerDataFeed customerData);
 
     /**
      * Save project string.
      *
-     * @param projectName the project name
+     * @param projectConfig the project name
      * @return the string
      */
-    String saveProject(String projectName);
+    String saveProject(ProjectConfig projectConfig);
+
+    /**
+     * Gets graphical view feed download.
+     *
+     * @param baseFilter the base filter
+     * @return the graphical view feed download
+     */
+//    ResponseEntity<Resource> getGraphicalViewFeedDownload(BaseFilter baseFilter);
 }
