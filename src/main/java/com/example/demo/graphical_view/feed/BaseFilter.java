@@ -42,4 +42,12 @@ public class BaseFilter {
      * The Date.
      */
     private KpiFeed dateField;
+    /**
+     * The Sort field.
+     */
+    private String sortField;
+    /**
+     * The Sort direction.
+     */
+    private String sortDirection;
 }

@@ -6,11 +6,14 @@ import com.example.demo.graphical_view.feed.BaseFilter;
 import com.example.demo.graphical_view.feed.CustomerDataFeed;
 import com.example.demo.graphical_view.feed.GraphicalViewFeed;
 import com.example.demo.graphical_view.feed.ProjectConfig;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -36,7 +39,7 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
     /**
      * The Occured date time key list.
      */
-    static List<String> occuredDateTimeKeyList = List.of("Incident Start", "Failure Datetime", "Failed Datetime", "OCCUR_DATE_TIME", "Occurred Date", "Failed", "Occurred Datetime");
+    static List<String> occuredDateTimeKeyList = List.of("Incident Start", "Failure Datetime", "Failed Datetime", "OCCUR_DATE_TIME", "Occurred Date", "Failed", "Occurred Datetime", "Occurred Datetime");
     /**
      * The Recitified date time key list.
      */
@@ -91,21 +94,26 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
     public List<GraphicalViewFeed> getGraphicalViewFeed(BaseFilter baseFilter) {
         Criteria criteria = new Criteria();
         criteria.and(ACTIVE).is(true);
+        SortOperation sortOperation = null;
         if (baseFilter != null) {
             addMatchInCriteria(baseFilter, criteria);
+            if (baseFilter.getSortField() != null) {
+                sortOperation = Aggregation.sort(Sort.Direction.ASC, baseFilter.getSortField());
+            }
         }
-        Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(criteria));
+        Aggregation aggregation = sortOperation != null ? Aggregation.newAggregation(Aggregation.match(criteria), sortOperation) : Aggregation.newAggregation(Aggregation.match(criteria));
         log.info("aggregation [{}]", aggregation);
         List<Map> documents = mongoTemplate.aggregate(aggregation, GRAPHICAL_VIEW_DATA, Map.class).getMappedResults();
-        log.info("mapped results {}", documents);
         if (!documents.isEmpty()) {
-            return documents.stream().map(graphicalViewFeed -> {
+            List<GraphicalViewFeed> list = documents.stream().map(graphicalViewFeed -> {
                 GraphicalViewFeed graphicalViewFeed1 = new GraphicalViewFeed();
                 modelMapper.map(graphicalViewFeed, graphicalViewFeed1);
                 graphicalViewFeed1.setOccurredDateTime(dateToString(graphicalViewFeed.get("occurredDateTime")));
                 graphicalViewFeed1.setRectifiedDateTime(dateToString(graphicalViewFeed.get("rectifiedDateTime")));
                 return graphicalViewFeed1;
             }).toList();
+            log.info("Mapped results [{}]", list);
+            return list;
 
         }
         return new ArrayList<>();
@@ -206,6 +214,7 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
                     Map<String, Object> graphData = new HashMap<>();
                     for (String key : keys) {
                         if (dateMap.contains(mappedData.get(key))) {
+                            log.info("key [{}] Date [{}] value [{}]", key, mappedData.get(key), data.get(key));
                             graphData.put(mappedData.get(key), stringToDate(data.get(key)));
                         } else {
                             graphData.put(mappedData.get(key), data.get(key));
@@ -293,8 +302,21 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
      */
     public Date stringToDate(Object date) {
         try {
-            return new SimpleDateFormat("dd-MMM-yy").parse((String) date);
+            log.info("date [{}]", date);
+            return new StdDateFormat().parse((String) date);
         } catch (ParseException e) {
+            if (date != null) {
+                ((String) date).replace(" ", "T");
+                try {
+                    return new SimpleDateFormat("dd-MMM-yy").parse(date.toString());
+                } catch (ParseException ex) {
+                    try {
+                        new SimpleDateFormat("yyyy-MM-dd").parse((String) date);
+                    } catch (ParseException exception) {
+                        log.error("Exception occur while parsing 3rd time date ", e);
+                    }
+                }
+            }
             log.error("Exception occur while parsing the date ", e);
         } catch (NullPointerException e) {
             log.error("Value is null so ignore");
@@ -309,14 +331,16 @@ public class GraphicalViewDataServiceImpl implements GraphicalViewDataService {
      * @return the string
      */
     public String dateToString(Object date) {
-        try {
-            return new SimpleDateFormat("dd-MMM-yy").format(date);
-        } catch (NullPointerException e) {
-            log.error("Value is null for date filed so ignoring");
-        } catch (Exception e) {
-            log.error("Exception while converting the date [{}]", date);
+        if (date != null) {
+            try {
+                return new SimpleDateFormat("dd-MMM-yy").format(date);
+            } catch (Exception e) {
+                log.error("Exception while converting the date [{}]", date);
+                return new StdDateFormat().format(date);
+            }
+        } else {
+            return null;
         }
-        return null;
     }
 
 }

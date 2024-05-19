@@ -73,7 +73,9 @@ public class KpiServiceImpl implements KpiService {
         MatchOperation match = match(criteria);
         GroupOperation groupOperation = addMetrics(group(lineChartFilter.getDateField().getKey()).first(lineChartFilter.getDateField().getKey()).as(lineChartFilter.getDateField().getKey()), lineChartFilter);
         Aggregation aggregation = Aggregation.newAggregation(match, groupOperation, Aggregation.project().andExclude("_id"), Aggregation.sort(Sort.Direction.ASC, lineChartFilter.getDateField().getKey()));
+        log.debug("aggregation [{}]", aggregation);
         List<Map> mappedResults = mongoTemplate.aggregate(aggregation, GRAPHICAL_VIEW_DATA, Map.class).getMappedResults();
+        log.debug("mapped results [{}]", mappedResults);
         if (!mappedResults.isEmpty()) {
             try {
                 log.info("Mapped data [{}]", new ObjectMapper().writeValueAsString(mappedResults));

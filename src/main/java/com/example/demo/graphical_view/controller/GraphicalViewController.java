@@ -79,7 +79,7 @@ public class GraphicalViewController {
      * @param baseFilter the base filter
      * @return the graphical view feed
      */
-    @GetMapping("/get/data")
+    @PostMapping("/get/data")
     public List<GraphicalViewFeed> getGraphicalViewFeed(@RequestBody(required = false) BaseFilter baseFilter) {
         return graphicalViewDataService.getGraphicalViewFeed(baseFilter);
     }
@@ -92,6 +92,7 @@ public class GraphicalViewController {
      */
     @PostMapping("/line")
     public List<Map> getLineChart(@RequestBody LineChartFilter lineChartFilter) {
+        log.info("Going to get line chart");
         return kpiService.getLineChart(lineChartFilter);
     }
 
